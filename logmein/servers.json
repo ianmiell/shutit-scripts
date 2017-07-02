@@ -1,0 +1,4 @@
+{
+	["pb", {"bar":["baz", null, 1.0, 2]}],
+	["server1", {"via":"pb","command":"ssh server1","username":"miellian","password":null}]]
+}
