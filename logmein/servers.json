@@ -1,4 +1,14 @@
 {
-	["pb", {"bar":["baz", null, 1.0, 2]}],
-	["server1", {"via":"pb","command":"ssh server1","username":"miellian","password":null}]]
+	"pb": {
+		"via":      None,
+		"command":  "ssh server1",
+		"username": "miellian",
+		"password": None
+	},
+	"server1": {
+		"via":      "pb",
+		"command":  "ssh server1",
+		"username": "miellian",
+		"password": None
+	}
 }
