@@ -10,5 +10,6 @@ while True:
 		print status
 		s1.send('minishift start')
 		s1.send('eval $(minishift oc-env)')
-	s1.send('oc login -u system:admin')
+s1.send('oc login -u system:admin')
+s1.login('oc exec -ti mysql-1-2gc84 bash')
 s1.interact()
