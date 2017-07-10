@@ -13,25 +13,49 @@ def is_file_secure(file_name):
         return False
     return True
 
-def go(server_dict):
 
-password_dict = None
-file_name = 'password.json'
-if os.path.exists(file_name):
-	if not is_file_secure(file_name):
-		print 'Password file: ' + file_name + ' is not secure'
-		sys.exit(1)
-	password_dict = json.loads(open(file_name).read())
+def choose(server_dict):
+	server_list = server_dict.keys()
+	for item in server_list:
+		description = server_dict[item]['description']
+		print 'Server name: ' + item + ' - ' + description
+		res = input()
+	return res
+	
+
+def go(shutit_session, destination, server_dict, password_dict):
+	servers = server_dict.keys()
+	# get the item
+	# if there is a via, recurse
+	# then go to server
+	return
+
 # password json file - must be 0400 - shutit issecure function
+def get_passwords():
+	password_dict = None
+	file_name = 'password.json'
+	if os.path.exists(file_name):
+		if not is_file_secure(file_name):
+			print 'Password file: ' + file_name + ' is not secure'
+			sys.exit(1)
+		password_dict = json.loads(open(file_name).read())
+	return password_dict
 
-servers_file_name = 'servers.json'
-server_dict = json.loads(open(servers_file_name).read())
+def get_servers():
+	servers_file_name = 'servers.json'
+	server_dict = json.loads(open(servers_file_name).read())
+	return server_dict
 
-server_list = server_dict.keys()
-for item in server_list:
-	print item
-	description = server_dict[item]['description']
-	 server_dict[item]['via']
+
+password_dict = get_passwords()
+server_dict   = get_servers()
+destination   = choose()
+shutit_session = shutit.create_session('bash')
+
+go(shutit_session, destination, server_dict,password_dict)
+shutit_session.interact()
+
+
 
 #    "pb": {
 #        "description": "Powerbroker server",
