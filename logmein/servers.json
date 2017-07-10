@@ -1,14 +1,16 @@
 {
 	"pb": {
-		"via":      None,
+		"description": "Powerbroker server",
+		"via":      null,
 		"command":  "ssh server1",
 		"username": "miellian",
-		"password": None
+		"password": null
 	},
 	"server1": {
+		"description": "server1, my dev server",
 		"via":      "pb",
 		"command":  "ssh server1",
 		"username": "miellian",
-		"password": None
+		"password": null
 	}
 }
