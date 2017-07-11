@@ -1,7 +1,19 @@
 {
+	"rothko": {
+		"description": "Main home server",
+		"username": "imiell",
+		"server":  "shutit.tk"
+	},
+	"cage": {
+		"description": "Silent server at home",
+		"username": "imiell",
+		"server":  "192.168.1.109"
+		"via": "rothko"
+	},
 	"pb": {
 		"description": "Powerbroker server",
-		"command":  "ssh server1"
+		"username": "imiell",
+		"server":  "shutit.tk"
 	},
 	"server1": {
 		"description": "server1, my dev server",

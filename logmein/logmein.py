@@ -1,6 +1,7 @@
 import json
 import shutit
 import os
+import texttable
 
 def is_file_secure(file_name):
     """Returns false if file is considered insecure, true if secure.
@@ -16,19 +17,51 @@ def is_file_secure(file_name):
 
 def choose(server_dict):
 	server_list = server_dict.keys()
-	for item in server_list:
-		description = server_dict[item]['description']
-		print 'Server name: ' + item + ' - ' + description
-		res = input()
-	return res
+	table = texttable.Texttable()
+	rows = []
+	if len(server_list):
+		for item in server_list:
+			rows += [['server']+list(server_dict[item])]
+			break
+		for item in server_list:
+			rows += [[item]+list(server_dict[item].values())]
+		table.add_rows(rows)
+		print table.draw()
+		res = raw_input('Choose a server: ')
+		if res in server_dict:
+			return res
+		else:
+			print 'Not in list, try again'
+			choose(server_dict)
+	else:
+		sys.exit()
 	
 
 def go(shutit_session, destination, server_dict, password_dict):
 	servers = server_dict.keys()
+	server_info = server_dict[destination]
 	# get the item
+	if 'via' in server_info:
+		via = server_info['via']
+	else:
+		via = None
 	# if there is a via, recurse
+	if via is not None:
+		go(shutit_session, via, server_dict, password_dict)
 	# then go to server
+	command = server_info['command']
+	username = server_info['username']
+	server = server_info['server']
+	password = password_dict[server][username]['password']
+	if command is None:
+		command = 'ssh '
+		if username is not None:
+			command += username + '@'
+		command += server
+	shutit.login(command=command,password=password)
+	
 	return
+
 
 # password json file - must be 0400 - shutit issecure function
 def get_passwords():
@@ -41,15 +74,29 @@ def get_passwords():
 		password_dict = json.loads(open(file_name).read())
 	return password_dict
 
+
 def get_servers():
 	servers_file_name = 'servers.json'
 	server_dict = json.loads(open(servers_file_name).read())
 	return server_dict
 
 
+def tidy_server_dict(server_dict):
+	for item in server_dict:
+		for name in ('via','command','username','server'):
+			if name not in server_dict[item]:
+				server_dict[item][name] = None
+		if server_dict[item]['command'] is None and server_dict[item]['server'] is None:
+			print 'Either "command" or "server" must be set in: ' + item
+			sys.exit(1)
+	return server_dict
+
+
 password_dict = get_passwords()
 server_dict   = get_servers()
-destination   = choose()
+server_dict   = tidy_server_dict(server_dict)
+destination   = choose(server_dict)
+print 'Please wait'
 shutit_session = shutit.create_session('bash')
 
 go(shutit_session, destination, server_dict,password_dict)
