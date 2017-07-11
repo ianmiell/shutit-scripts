@@ -82,13 +82,13 @@ def go(shutit_session, destination, server_dict, password_dict):
 		password = password_dict[destination]
 	log(password_dict)
 	log("Password: " + str(password))
-	if login_command is None:
+	if login_command is None and server is not None:
 		login_command = 'ssh '
 		if username is not None:
 			login_command += username + '@'
-		if server is not None:
 			login_command += server
-	shutit_session.login(command=login_command,password=password,user=username)
+	if login_command is not None or server is not None:
+		shutit_session.login(command=login_command,password=password,user=username)
 	if commands is not None:
 		for command in commands:
 			shutit_session.send(command)
@@ -129,6 +129,7 @@ def log(msg):
 		print msg
 
 debug=True
+loglevel='WARNING'
 
 
 password_dict = get_passwords()
@@ -136,7 +137,7 @@ server_dict   = get_servers()
 server_dict   = tidy_server_dict(server_dict)
 destination   = choose(server_dict,longtable=False)
 print 'Please wait...'
-shutit_session = shutit.create_session('bash')
+shutit_session = shutit.create_session('bash',loglevel=loglevel)
 
 go(shutit_session, destination, server_dict,password_dict)
 shutit_session.pause_point()

@@ -19,7 +19,7 @@
 	"cagego": {
 		"description": "set up",
 		"via": "cage",
-		"commands": ["ls"]
+		"commands": ["export A=B"]
 	},
 	"cageroot": {
 		"description": "Root on silent server at home",
