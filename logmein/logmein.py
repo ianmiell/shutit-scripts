@@ -19,17 +19,28 @@ def is_file_secure(file_name):
     return True
 
 
-def choose(server_dict):
+def choose(server_dict,longtable):
 	server_list = server_dict.keys()
-	table = texttable.Texttable()
+	table = texttable.Texttable(max_width=200)
 	rows = []
 	if len(server_list):
-		# TODO: don't rely on ordering - get headers, and then reference each header
+		if longtable:
+			for item in server_list:
+				headers = list(server_dict[item])
+				rows += [['server']+headers]
+				break
+		else:
+			headers = ['description']
+			rows += [['server','description']]
 		for item in server_list:
-			rows += [['server']+list(server_dict[item])]
-			break
-		for item in server_list:
-			rows += [[item]+list(server_dict[item].values())]
+			value_list = []
+			for name in headers:
+				value = server_dict[item][name]
+				value_list += [server_dict[item][name]]
+			rows += [[item]+value_list]
+		for name in headers:
+			#set collength
+			pass
 		table.add_rows(rows)
 		print table.draw()
 		res = raw_input('Choose a server: ')
@@ -37,7 +48,7 @@ def choose(server_dict):
 			return res
 		else:
 			print 'Not in list, try again'
-			choose(server_dict)
+			choose(server_dict,longtable)
 	else:
 		sys.exit()
 	
@@ -124,7 +135,7 @@ debug=True
 password_dict = get_passwords()
 server_dict   = get_servers()
 server_dict   = tidy_server_dict(server_dict)
-destination   = choose(server_dict)
+destination   = choose(server_dict,longtable=False)
 print 'Please wait'
 shutit_session = shutit.create_session('bash')
 
