@@ -24,6 +24,7 @@ def choose(server_dict):
 	table = texttable.Texttable()
 	rows = []
 	if len(server_list):
+		# TODO: don't rely on ordering - get headers, and then reference each header
 		for item in server_list:
 			rows += [['server']+list(server_dict[item])]
 			break
