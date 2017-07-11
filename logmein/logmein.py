@@ -79,16 +79,15 @@ def go(shutit_session, destination, server_dict, password_dict):
 		# TODO: extract username from login_command if it's not specified and in there
 		pass
 	if destination in password_dict:
-		if username in password_dict[destination]:
-			if 'password' in password_dict[destination][username]:
-				password = password_dict[destination][username]['password']
+		password = password_dict[destination]
 	log(password_dict)
 	log("Password: " + str(password))
 	if login_command is None:
 		login_command = 'ssh '
 		if username is not None:
 			login_command += username + '@'
-		login_command += server
+		if server is not None:
+			login_command += server
 	shutit_session.login(command=login_command,password=password,user=username)
 	if commands is not None:
 		for command in commands:
@@ -136,9 +135,9 @@ password_dict = get_passwords()
 server_dict   = get_servers()
 server_dict   = tidy_server_dict(server_dict)
 destination   = choose(server_dict,longtable=False)
-print 'Please wait'
+print 'Please wait...'
 shutit_session = shutit.create_session('bash')
 
 go(shutit_session, destination, server_dict,password_dict)
-shutit_session.interact()
+shutit_session.pause_point()
 
