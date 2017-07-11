@@ -2,6 +2,8 @@ import json
 import shutit
 import os
 import texttable
+import stat
+import sys
 
 def is_file_secure(file_name):
     """Returns false if file is considered insecure, true if secure.
@@ -52,21 +54,20 @@ def go(shutit_session, destination, server_dict, password_dict):
 	command = server_info['command']
 	username = server_info['username']
 	server = server_info['server']
-	password = password_dict[server][username]['password']
+	password = password_dict[destination][username]['password']
 	if command is None:
 		command = 'ssh '
 		if username is not None:
 			command += username + '@'
 		command += server
-	shutit.login(command=command,password=password)
-	
+	shutit_session.login(command=command,password=password,user=username)
 	return
 
 
 # password json file - must be 0400 - shutit issecure function
 def get_passwords():
 	password_dict = None
-	file_name = 'password.json'
+	file_name = 'passwords.json'
 	if os.path.exists(file_name):
 		if not is_file_secure(file_name):
 			print 'Password file: ' + file_name + ' is not secure'
