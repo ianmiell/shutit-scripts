@@ -5,6 +5,8 @@ import texttable
 import stat
 import sys
 
+debug=False
+
 def is_file_secure(file_name):
     """Returns false if file is considered insecure, true if secure.
     If file doesn't exist, it's considered secure!
@@ -40,9 +42,11 @@ def choose(server_dict):
 	
 
 def go(shutit_session, destination, server_dict, password_dict):
+	log('Server info: ' + str(server_dict))
 	servers = server_dict.keys()
 	server_info = server_dict[destination]
 	# get the item
+	log('Destination: ' + destination)
 	if 'via' in server_info:
 		via = server_info['via']
 	else:
@@ -50,17 +54,33 @@ def go(shutit_session, destination, server_dict, password_dict):
 	# if there is a via, recurse
 	if via is not None:
 		go(shutit_session, via, server_dict, password_dict)
+		log('Logged into: ' + via)
+	log('Now logging into: ' + destination)
 	# then go to server
-	command = server_info['command']
-	username = server_info['username']
-	server = server_info['server']
-	password = password_dict[destination][username]['password']
-	if command is None:
-		command = 'ssh '
+	login_command = server_info['login_command']
+	username      = server_info['username']
+	server        = server_info['server']
+	commands      = server_info['commands']
+	password      = None
+	log('\nLogin command: ' + str(login_command) + ' \nUsername: ' + str(username) + ' \nServer: ' + str(server) + ' \nCommands' + str(commands))
+	if username is None:
+		# TODO: extract username from login_command if it's not specified and in there
+		pass
+	if destination in password_dict:
+		if username in password_dict[destination]:
+			if 'password' in password_dict[destination][username]:
+				password = password_dict[destination][username]['password']
+	log(password_dict)
+	log("Password: " + str(password))
+	if login_command is None:
+		login_command = 'ssh '
 		if username is not None:
-			command += username + '@'
-		command += server
-	shutit_session.login(command=command,password=password,user=username)
+			login_command += username + '@'
+		login_command += server
+	shutit_session.login(command=login_command,password=password,user=username)
+	if commands is not None:
+		for command in commands:
+			shutit_session.send(command)
 	return
 
 
@@ -84,13 +104,20 @@ def get_servers():
 
 def tidy_server_dict(server_dict):
 	for item in server_dict:
-		for name in ('via','command','username','server'):
+		for name in ('via','login_command','username','server','commands'):
 			if name not in server_dict[item]:
 				server_dict[item][name] = None
-		if server_dict[item]['command'] is None and server_dict[item]['server'] is None:
-			print 'Either "command" or "server" must be set in: ' + item
+		if server_dict[item]['login_command'] is None and server_dict[item]['server'] is None and server_dict[item]['commands'] is None:
+			print 'Either "login_command" or "server" must be set in: ' + item
 			sys.exit(1)
 	return server_dict
+
+
+def log(msg):
+	if debug:
+		print msg
+
+debug=True
 
 
 password_dict = get_passwords()
@@ -102,47 +129,4 @@ shutit_session = shutit.create_session('bash')
 
 go(shutit_session, destination, server_dict,password_dict)
 shutit_session.interact()
-
-
-
-#    "pb": {
-#        "description": "Powerbroker server",
-#        "via":      null,
-#        "command":  "ssh server1",
-#        "username": "miellian",
-#        "password": null
-
-
-#if chosen_env in ('aws_terraform_prod','aws_terraform_etf','npclientsl','npclientgl','pclientsl','pclientgl'):
-#             shutit.login('pbrun -h slgdsr000002614.intranet.barcapint.com bash',user='root',password=password)
-#     if chosen_env in ('aws_terraform_etf','npclientsl','npclientgl','pclientsl','pclientgl'):
-#             shutit.login('sudo su - miellian',user='miellian')
-#     if chosen_env in ('aws_terraform_prod',):
-#             shutit.login('sudo su - miellian',user='miellian_adm')
-#     if chosen_env == 'chef_prod':
-#             shutit.login('pbrun -h duwdsr002001276.intranet.barcapint.com bash',user=user,password=password)
-#     if chosen_env == 'clustertest':
-#             shutit.login('pbrun -h gbrpsr000004601 bash',user=user,password=password)
-#     if chosen_env == 'chef_etf':
-#             shutit.login('ssh ' + user + '@ldtdsr000001743.etf.barcapetf.com',password=password,user=user)
-#     if chosen_env == 'aws_pilot_d':
-#             shutit.login('pbrun -h duwdsr002001276 bash',user='root',password=password)
-#             shutit.login('sudo su - miellian',user='miellian_adm')
-#     if chosen_env == 'nposea':
-#             shutit.login('pbrun -h gbrpsr000002521 bash',user='root',password=password)
-#     if chosen_env == 'osepilota1':
-#             shutit.login('pbrun -h slgdsr000002618 bash',user='root',password=password)
-#     if chosen_env == 'osepilotd1':
-#             shutit.login('pbrun -h duwdsr002000264.intranet.barcapint.com bash',user='root',password=password)
-#     if chosen_env in ('etf','34upgrade'):
-#             shutit.login('ssh ' + user + '@10.123.53.149',password=password,user=user)
-#     if chosen_env == 'npclientsl':
-#             shutit.send('oc login https://console-sl.appcloud-np.barcapint.com',expect='Username')
-#             shutit.send('miellian_adm',expect='assword')
-#             shutit.send(password)
-#     if chosen_env == 'npclientgl':
-#             shutit.send('oc login https://console-gl.appcloud-np.barcapint.com',expect='Username')
-#             shutit.send('miellian_adm',expect='assword')
-#             shutit.send(password)
-
 

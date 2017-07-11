@@ -4,21 +4,26 @@
 		"username": "imiell",
 		"server":  "shutit.tk"
 	},
+	"rothkoroot": {
+		"description": "Root on server at home",
+		"login_command": "sudo su - root",
+		"username": "root",
+		"via": "rothko"
+	},
 	"cage": {
 		"description": "Silent server at home",
 		"username": "imiell",
 		"server":  "192.168.1.109",
 		"via": "rothko"
 	},
-	"pb": {
-		"description": "Powerbroker server",
-		"username": "imiell",
-		"server":  "shutit.tk"
+	"cagego": {
+		"description": "set up",
+		"via": "cage",
+		"commands": ["ls"]
 	},
-	"server1": {
-		"description": "server1, my dev server",
-		"via":      "pb",
-		"command":  "ssh server1",
-		"username": "miellian"
+	"cageroot": {
+		"description": "Root on silent server at home",
+		"login_command": "sudo su - root",
+		"via": "cage"
 	}
 }
