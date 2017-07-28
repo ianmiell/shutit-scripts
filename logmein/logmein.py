@@ -5,7 +5,11 @@ import texttable
 import stat
 import sys
 
+
+# TODO: cl args
 debug=False
+loglevel='WARNING'
+
 
 def is_file_secure(file_name):
     """Returns false if file is considered insecure, true if secure.
@@ -128,17 +132,19 @@ def log(msg):
 	if debug:
 		print msg
 
-debug=True
-loglevel='WARNING'
-
 
 password_dict = get_passwords()
 server_dict   = get_servers()
 server_dict   = tidy_server_dict(server_dict)
 destination   = choose(server_dict,longtable=False)
+
+
+# Create the bash session
 print 'Please wait...'
 shutit_session = shutit.create_session('bash',loglevel=loglevel)
 
+
+# Off we go.
 go(shutit_session, destination, server_dict,password_dict)
 shutit_session.pause_point()
 
