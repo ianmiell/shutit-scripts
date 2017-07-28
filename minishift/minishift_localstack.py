@@ -48,6 +48,7 @@ volumes:
 	s1.send('oc update -f /tmp/new_scc.yaml')
 	s1.send('''oc new-app -e DEBUG=1 localstack/localstack --name="localstack"''')
 	host = s1.send_and_get_output(r"""minishift console --machine-readable | grep HOST | sed 's/^HOST=\(.*\)/\1/'""")
+	s1.send('oc delete routes --all')
 	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
 items:
 - apiVersion: v1
@@ -56,7 +57,6 @@ items:
     annotations:
       openshift.io/host.generated: "true"
     name: apigateway
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/apigateway
   spec:
     host: apigateway-test.''' + host + '''.nip.io
@@ -76,13 +76,20 @@ items:
       host: apigateway-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: cloudformation
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/cloudformation
   spec:
     host: cloudformation-test.''' + host + '''.nip.io
@@ -102,13 +109,20 @@ items:
       host: cloudformation-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: cloudwatch
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/cloudwatch
   spec:
     host: cloudwatch-test.''' + host + '''.nip.io
@@ -128,13 +142,20 @@ items:
       host: cloudwatch-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: dynamodb
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/dynamodb
   spec:
     host: dynamodb-test.''' + host + '''.nip.io
@@ -154,13 +175,20 @@ items:
       host: dynamodb-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: dynamodbstreams
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/dynamodbstreams
   spec:
     host: dynamodbstreams-test.''' + host + '''.nip.io
@@ -180,13 +208,20 @@ items:
       host: dynamodbstreams-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: es
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/es
   spec:
     host: es-test.''' + host + '''.nip.io
@@ -206,13 +241,20 @@ items:
       host: es-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: firehose
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/firehose
   spec:
     host: firehose-test.''' + host + '''.nip.io
@@ -232,13 +274,20 @@ items:
       host: firehose-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: kinesis
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/kinesis
   spec:
     host: kinesis-test.''' + host + '''.nip.io
@@ -258,13 +307,20 @@ items:
       host: kinesis-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: lambda
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/lambda
   spec:
     host: lambda-test.''' + host + '''.nip.io
@@ -284,13 +340,20 @@ items:
       host: lambda-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: redshift
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/redshift
   spec:
     host: redshift-test.''' + host + '''.nip.io
@@ -310,13 +373,20 @@ items:
       host: redshift-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: route53
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/route53
   spec:
     host: route53-test.''' + host + '''.nip.io
@@ -336,13 +406,20 @@ items:
       host: route53-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: s3
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/s3
   spec:
     host: s3-test.''' + host + '''.nip.io
@@ -362,13 +439,20 @@ items:
       host: s3-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: ses
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/ses
   spec:
     host: ses-test.''' + host + '''.nip.io
@@ -388,13 +472,20 @@ items:
       host: ses-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: sns
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/sns
   spec:
     host: sns-test.''' + host + '''.nip.io
@@ -414,13 +505,20 @@ items:
       host: sns-test.''' + host + '''.nip.io
       routerName: router
       wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: "true"
     name: sqs
-    namespace: test
     selfLink: /oapi/v1/namespaces/test/routes/sqs
   spec:
     host: sqs-test.''' + host + '''.nip.io
@@ -442,33 +540,45 @@ items:
       wildcardPolicy: None
 kind: List
 metadata: {}
-selfLink: ""
-apiVersion: v1
-kind: Route
-metadata:
-  annotations:
-    openshift.io/host.generated: "true"
-  name: web
-  namespace: test
-  selfLink: /oapi/v1/namespaces/test/routes/web
-spec:
-  host: web-test.''' + host + '''.nip.io
-  port:
-    targetPort: 8080-tcp
-  to:
-    kind: Service
-    name: localstack
-    weight: 100
-  wildcardPolicy: None
-status:
-  ingress:
-  - conditions:
-    - lastTransitionTime: 2017-07-28T17:52:44Z
-      status: "True"
-      type: Admitted
+resourceVersion: ""
+selfLink: ""''')
+	s1.send('oc create -f /tmp/routes.yaml')
+
+	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Route
+  metadata: {}
+  selfLink: ""
+  apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    name: web
+    selfLink: /oapi/v1/namespaces/test/routes/web
+  spec:
     host: web-test.''' + host + '''.nip.io
-    routerName: router
-    wildcardPolicy: None''')
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: localstack
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2017-07-28T17:52:44Z
+        status: "True"
+        type: Admitted
+      host: web-test.''' + host + '''.nip.io
+      routerName: router
+      wildcardPolicy: None
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""''')
 	s1.send('oc create -f /tmp/routes.yaml')
 	s1.send('''aws --endpoint-url=http://kinesis-test.''' + host + '''.nip.io kinesis list-streams''')
 	s1.interact()

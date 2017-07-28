@@ -13,7 +13,10 @@ def startup():
 			s1.send('eval $(minishift oc-env)')
 			break
 		else:
-			s1.send('minishift start --vm-driver virtualbox')
+			if s1.send_and_get_output('uname') == 'Darwin':
+				s1.send('minishift start')
+			else:
+				s1.send('minishift start --vm-driver virtualbox')
 			s1.send('eval $(minishift oc-env)')
 	s1.send('oc login -u system:admin')
 	return s1
