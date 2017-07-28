@@ -3,8 +3,7 @@ import minishift
 
 def setup():
 	s1 = minishift.startup()
-	s1.send('oc delete namespace localstack || true && sleep 10')
-	s1.send('oc create namespace localstack')
+	s1.send('oc login -u system:admin')
 	s1.send('oc project localstack')
 	s1.send_file('/tmp/new_scc.yaml','''allowHostDirVolumePlugin: false
 allowHostIPC: false
@@ -46,6 +45,9 @@ volumes:
 - persistentVolumeClaim
 - secret''')
 	s1.send('oc update -f /tmp/new_scc.yaml')
+
+	s1.send('oc login -u developer -p developer')
+	s1.send('oc delete all --all')
 	s1.send('''oc new-app -e DEBUG=1 localstack/localstack --name="localstack"''')
 	host = s1.send_and_get_output(r"""minishift console --machine-readable | grep HOST | sed 's/^HOST=\(.*\)/\1/'""")
 	s1.send('oc delete routes --all')

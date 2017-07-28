@@ -18,7 +18,7 @@ def startup():
 			else:
 				s1.send('minishift start --vm-driver virtualbox')
 			s1.send('eval $(minishift oc-env)')
-	s1.send('oc login -u system:admin')
+	#s1.send('oc login -u system:admin')
 	return s1
 
 if __name__ == "__main__":
