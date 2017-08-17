@@ -4,7 +4,7 @@ import minishift
 def setup():
 	s1 = minishift.startup()
 	s1.send('oc login -u system:admin')
-	s1.send('oc project localstack')
+	s1.send('oc project myproject')
 	s1.send_file('/tmp/new_scc.yaml','''allowHostDirVolumePlugin: false
 allowHostIPC: false
 allowHostNetwork: false
@@ -45,7 +45,6 @@ volumes:
 - persistentVolumeClaim
 - secret''')
 	s1.send('oc update -f /tmp/new_scc.yaml')
-
 	s1.send('oc login -u developer -p developer')
 	s1.send('oc delete all --all')
 	s1.send('''oc new-app -e DEBUG=1 localstack/localstack --name="localstack"''')
@@ -582,6 +581,7 @@ metadata: {}
 resourceVersion: ""
 selfLink: ""''')
 	s1.send('oc create -f /tmp/routes.yaml')
+	s1.send_until('oc get pods | grep localstack | grep -v deploy | grep Running | wc -l','1')
 	s1.send('''aws --endpoint-url=http://kinesis-test.''' + host + '''.nip.io kinesis list-streams''')
 	s1.interact()
 	
