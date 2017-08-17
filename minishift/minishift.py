@@ -16,8 +16,8 @@ def startup():
 		else:
 			if s1.send_and_get_output('uname') == 'Darwin':
 				# Problems?
- 				# 2821  17/08/17 20:12:20 minishift delete
- 				# 2822  17/08/17 20:12:38 sudo rm -rf ~/.minishift/
+ 				# sudo minishift delete --cache
+ 				# sudo rm -rf ~/.minishift/
 				s1.send('minishift start')
 			else:
 				s1.send('minishift start --vm-driver virtualbox')
