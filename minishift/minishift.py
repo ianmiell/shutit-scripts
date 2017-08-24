@@ -26,5 +26,6 @@ def startup():
 
 if __name__ == "__main__":
 	s1 = startup()
+	s1.send('oc login -u system:admin')
 	s1.send('minishift console')
 	s1.interact()

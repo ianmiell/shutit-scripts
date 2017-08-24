@@ -582,6 +582,10 @@ resourceVersion: ""
 selfLink: ""''')
 	s1.send('oc create -f /tmp/routes.yaml')
 	s1.send_until('oc get pods | grep localstack | grep -v deploy | grep Running | wc -l','1')
+	s1.send('minishift console')
+	shutit.pause_point('''aws --endpoint-url=http://kinesis-test.''' + host + '''.nip.io kinesis list-streams
+aws --endpoint-url=http://kinesis-test.''' + host + '''.nip.io kinesis create-stream --stream-name teststream --shard-count 2
+aws --endpoint-url=http://kinesis-test.''' + host + '''.nip.io kinesis list-streams''')
 	s1.send('''aws --endpoint-url=http://kinesis-test.''' + host + '''.nip.io kinesis list-streams''')
 	s1.send('''aws --endpoint-url=http://kinesis-test.''' + host + '''.nip.io kinesis create-stream --stream-name teststream --shard-count 2''')
 	s1.send('''aws --endpoint-url=http://kinesis-test.''' + host + '''.nip.io kinesis list-streams''')
@@ -590,4 +594,5 @@ selfLink: ""''')
 
 if __name__ == '__main__':
 	setup()
+	s1.send('oc login -u system:admin')
 	pass
