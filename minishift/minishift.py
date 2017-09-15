@@ -22,6 +22,7 @@ def startup():
 			else:
 				s1.send('minishift start --vm-driver virtualbox')
 			s1.send('eval $(minishift oc-env)')
+	s1.send('oc adm policy add-cluster-role-to-user cluster-admin admin --as=system:admin')
 	return s1
 
 if __name__ == "__main__":
