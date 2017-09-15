@@ -27,7 +27,15 @@ def startup():
 				s1.send('minishift start --vm-driver virtualbox')
 			s1.send('eval $(minishift oc-env)')
 	s1.send('oc adm policy add-cluster-role-to-user cluster-admin admin --as=system:admin')
+	login_as_root(s1)
 	return s1
+
+
+def login_as_root(shutit_object):
+	shutit_object.multisend('oc login',{'Username:':'admin','Password:':'anypass'}) 
+
+def login_as_developer(shutit_object):
+	shutit_object.multisend('oc login',{'Username:':'developer','Password:':'anypass'}) 
 
 if __name__ == "__main__":
 	s1 = startup()
