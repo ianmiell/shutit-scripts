@@ -18,11 +18,14 @@ def startup():
 				# Problems?
  				# sudo minishift delete --cache
  				# sudo rm -rf ~/.minishift/
+				s1.send('minishift addons install --defaults')
+				s1.send('minishift addons enable cluster-admin')
 				s1.send('minishift start')
 			else:
+				s1.send('minishift addons install --defaults')
+				s1.send('minishift addons enable cluster-admin')
 				s1.send('minishift start --vm-driver virtualbox')
 			s1.send('eval $(minishift oc-env)')
-	s1.send('oc adm policy add-cluster-role-to-user cluster-admin admin --as=system:admin')
 	return s1
 
 if __name__ == "__main__":
