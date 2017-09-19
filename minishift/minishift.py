@@ -4,7 +4,7 @@ import shutit
 #sudo rm -rf ~/.minishift/
 
 def startup():
-	s1 = shutit.create_session('bash',loglevel='debug',echo=True)
+	s1 = shutit.create_session('bash',loglevel='info',echo=True)
 	# TODO: get minishift itself?
 	s1.send('minishift update',{'want to update':'y'})
 	while True:
