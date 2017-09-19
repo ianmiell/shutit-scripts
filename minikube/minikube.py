@@ -1,7 +1,7 @@
 import shutit
 
 def startup():
-	s1 = shutit.create_session('bash',loglevel='debug',echo=True)
+	s1 = shutit.create_session('bash',loglevel='info',echo=True)
 	# TODO: get minikube itself?
 	# curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
 	# curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
