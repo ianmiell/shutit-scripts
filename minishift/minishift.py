@@ -32,10 +32,10 @@ def startup():
 
 
 def login_as_root(shutit_object):
-	shutit_object.multisend('oc login',{'Username:':'admin','Password:':'anypass'}) 
+	shutit_object.multisend('oc login $(minishift ip):8443 --insecure-skip-tls-verify',{'Username:':'admin','Password:':'anypass'}) 
 
 def login_as_developer(shutit_object):
-	shutit_object.multisend('oc login',{'Username:':'developer','Password:':'anypass'}) 
+	shutit_object.multisend('oc login $(minishift ip):8443 --insecure-skip-tls-verify',{'Username:':'developer','Password:':'anypass'}) 
 
 if __name__ == "__main__":
 	s1 = startup()
