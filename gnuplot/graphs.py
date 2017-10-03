@@ -1,6 +1,8 @@
 import shutit
 import os
 
+# https://asciinema.org/a/140690
+
 # The gnuplot prompt to expect.
 gnuplot_expect='gnuplot> '
 
