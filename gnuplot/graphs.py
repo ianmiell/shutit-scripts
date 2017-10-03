@@ -5,7 +5,7 @@ import os
 gnuplot_expect='gnuplot> '
 
 # Create a bash session.
-s = shutit.create_session(loglevel='warning',video=5)
+s = shutit.create_session(loglevel='warning',video=2)
 
 # If gnuplot is not installed, install it.
 if s.send_and_get_output('which gnuplot') == '':
@@ -13,6 +13,8 @@ if s.send_and_get_output('which gnuplot') == '':
 
 # Ensure we are in this script's folder.
 s.send('cd ' + os.path.dirname(os.path.realpath(__file__)))
+
+s.begin_asciinema_session(title='gnuplot session',max_pause=2,filename='gnuplot.asciinema')
 
 # Gnuplot session.
 s.send('gnuplot',expect=gnuplot_expect,note='Start gnuplot')
@@ -26,6 +28,7 @@ s.send('set timefmt "%Y-%m"',expect=gnuplot_expect,note='Tell gnuplot the date f
 s.send("set output 'dividends.png'",expect=gnuplot_expect,note='Set the output file name')
 s.send("plot 'dividend_12mth.dat' using 2:1 with lines",expect=gnuplot_expect,note='Draw the graph, indicating the file, and the x/y columes. Draw the graph with a line.')
 s.send('exit',note='Exit gnuplot')
+s.end_asciinema_session()
 if s.get_os() == 'osx':
 	s.send('open dividends.png')
 else:
