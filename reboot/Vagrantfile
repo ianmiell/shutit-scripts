@@ -1,0 +1,10 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "master1" do |master1|
+	master1.vm.box = "centos/7"
+	master1.vm.hostname = "master1.vagrant.test"
+  end
+  config.vm.define "master2" do |master2|
+	master2.vm.box = "centos/7"
+	master2.vm.hostname = "master2.vagrant.test"
+  end
+end
