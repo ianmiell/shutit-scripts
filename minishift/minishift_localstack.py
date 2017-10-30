@@ -50,37 +50,23 @@ volumes:
 	s1.send('''oc new-app -e DEBUG=1 localstack/localstack --name="localstack"''')
 	host = s1.send_and_get_output(r"""minishift console --machine-readable | grep HOST | sed 's/^HOST=\(.*\)/\1/'""")
 	s1.send('oc delete routes --all')
-	s1.send_file('/tmp/routes.yaml','''apiVersion: v1
-items:
-- apiVersion: v1
-  kind: Route
-  metadata:
-    annotations:
-      openshift.io/host.generated: "true"
-    name: apigateway
-    selfLink: /oapi/v1/namespaces/test/routes/apigateway
-  spec:
-    host: apigateway-test.''' + host + '''.nip.io
-    port:
-      targetPort: 4567-tcp
-    to:
-      kind: Service
-      name: localstack
-      weight: 100
-    wildcardPolicy: None
-  status:
-    ingress:
-    - conditions:
-      - lastTransitionTime: 2017-07-28T17:44:17Z
-        status: "True"
-        type: Admitted
-      host: apigateway-test.''' + host + '''.nip.io
-      routerName: router
-      wildcardPolicy: None
-kind: List
-metadata: {}
-resourceVersion: ""
-selfLink: ""''')
+	s1.send_file('/tmp/routes.yaml','''
+apiVersion: v1
+kind: Route
+metadata:
+  annotations:
+    openshift.io/host.generated: "true"
+  name: apigateway
+  selfLink: /oapi/v1/namespaces/test/routes/apigateway
+spec:
+  host: apigateway-test.''' + host + '''.nip.io
+  port:
+    targetPort: 4567-tcp
+  to:
+    kind: Service
+    name: localstack
+    weight: 100
+  wildcardPolicy: None''')
 	s1.send('oc create -f /tmp/routes.yaml')
 
 	s1.send_file('/tmp/routes.yaml','''apiVersion: v1

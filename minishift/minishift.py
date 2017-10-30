@@ -8,9 +8,8 @@ def startup():
 	# TODO: get minishift itself?
 	s1.send('minishift update',{'want to update':'y'})
 	while True:
-		status = s1.send_and_get_output('minishift status')
+		status = s1.send_and_get_output("""minishift status | grep ^Minishift | awk '{print $2}'""")
 		if status == 'Running':
-
 			s1.send('eval $(minishift oc-env)')
 			break
 		else:
