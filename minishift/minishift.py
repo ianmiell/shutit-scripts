@@ -25,8 +25,10 @@ def startup():
 				s1.send('minishift addons enable cluster-admin')
 				s1.send('minishift start --vm-driver virtualbox')
 	s1.send('eval $(minishift oc-env)')
-	login_as_root(s1)
+	# https://github.com/minishift/minishift/issues/402
+	login_as_developer(s1)
 	s1.send('oc adm policy add-cluster-role-to-user cluster-admin admin --as=system:admin')
+	login_as_root(s1)
 	return s1
 
 
