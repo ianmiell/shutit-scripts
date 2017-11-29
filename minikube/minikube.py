@@ -3,11 +3,11 @@ import shutit
 def startup():
 	s1 = shutit.create_session('bash',loglevel='info',echo=True)
 
-	if not s1.command_available('minikube'):
+	if not s1.command_available('minikube') or s1.send_and_get_output("""minikube version | awk '{print $2}'""") != 'v0.23.0':
 		if s1.send_and_get_output('uname') == 'Darwin':
-			s1.send('curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.22.3/minikube-darwin-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/')
+			s1.send('curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.23.0/minikube-darwin-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/')
 		else:
-			s1.send('curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.22.3/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/')
+			s1.send('curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.23.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/')
 
 	while True:
 		status = s1.send_and_get_output('minikube status')
