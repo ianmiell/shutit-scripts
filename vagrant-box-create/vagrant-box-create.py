@@ -18,9 +18,9 @@ s.send('wget -qO- https://raw.githubusercontent.com/ianmiell/vagrant-swapfile/ma
 # Downloads
 s.send('wget -nc -q https://packages.chef.io/files/stable/chef/13.5.3/el/7/chef-13.5.3-1.el7.x86_64.rpm')
 s.send('wget -nc -q https://packages.chef.io/files/stable/chefdk/2.3.4/el/7/chefdk-2.3.4-1.el7.x86_64.rpm')
-s.send('https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xaa')
-s.send('https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xab')
-s.send('https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xac')
+s.send('wget -nc -q https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xaa')
+s.send('wget -nc -q https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xab')
+s.send('wget -nc -q https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xac')
 s.send('cat chef-server-core-12.17.3-1.el7.x86_64.rpm.xaa chef-server-core-12.17.3-1.el7.x86_64.rpm.xab chef-server-core-12.17.3-1.el7.x86_64.rpm.xac > chef-server-core-12.17.3-1.el7.x86_64.rpm')
 s.send('rm -f *xaa *xab *xac')
 
