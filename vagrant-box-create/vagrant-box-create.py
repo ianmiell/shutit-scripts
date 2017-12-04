@@ -7,6 +7,8 @@ s.send('rm -rf tmpvagrantboxcreate && mkdir tmpvagrantboxcreate && cd tmpvagrant
 s.send('vagrant init centos/7')
 s.send('vagrant box update')
 s.send('vagrant up')
+
+# Log onto machine and prepare it.
 s.login('vagrant ssh')
 s.login('sudo su -')
 s.multisend('yum install -y wget vim-enhanced docker git sysstat dnsmasq python epel-release git libselinux-python net-tools bind-utils bash-completion dkms kernel-devel',{'s this ok':'y'})
@@ -51,5 +53,14 @@ s.logout()
 s.logout()
 
 s.send('vagrant package')
+s.send('split -b 250m package.box')
+s.send('mkdir -p /space/git/shutit-openshift-cluster/vagrant_box')
+s.send('rm -rf /space/git/shutit-openshift-cluster/vagrant_box/*')
+s.send('mv x* /space/git/shutit-openshift-cluster/vagrant_box')
+s.send('cd /space/git/shutit-openshift-cluster')
+s.send('git add vagrant_box')
+s.send('git commit -am vagrant_box')
+s.send('git push')
+s.send('cd -')
 
 s.pause_point('Now take the file and upload it to vagrant cloud ianmiell/centos7ose')
