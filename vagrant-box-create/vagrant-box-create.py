@@ -9,10 +9,27 @@ s.send('vagrant box update')
 s.send('vagrant up')
 s.login('vagrant ssh')
 s.login('sudo su -')
-s.send('yum install -y wget vim-enhanced docker git sysstat dnsmasq python epel-release git libselinux-python net-tools bind-utils bash-completion')
+s.multisend('yum install -y wget vim-enhanced docker git sysstat dnsmasq python epel-release git libselinux-python net-tools bind-utils bash-completion dkms kernel-devel',{'s this ok':'y'})
+s.multisend('yum groupinstall "Development Tools"',{'s this ok':'y'})
 s.send(r'''sed -i 's/^\(127.0.0.1[ \t]*[^ \t]*\).*/\1/' /etc/hosts''',note='Make sure chef sees a fqdn.')
 s.send('echo root:origin | /usr/sbin/chpasswd',note='set root password')
 s.send('wget -qO- https://raw.githubusercontent.com/ianmiell/vagrant-swapfile/master/vagrant-swapfile.sh | sh')
+
+# Downloads
+s.send('wget -nc -q https://packages.chef.io/files/stable/chef/13.5.3/el/7/chef-13.5.3-1.el7.x86_64.rpm')
+s.send('wget -nc -q https://packages.chef.io/files/stable/chefdk/2.3.4/el/7/chefdk-2.3.4-1.el7.x86_64.rpm')
+s.send('https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xaa')
+s.send('https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xab')
+s.send('https://github.com/ianmiell/shutit-chef-env/raw/master/chef-server-core-12.17.3-1.el7.x86_64.rpm.xac')
+s.send('cat chef-server-core-12.17.3-1.el7.x86_64.rpm.xaa chef-server-core-12.17.3-1.el7.x86_64.rpm.xab chef-server-core-12.17.3-1.el7.x86_64.rpm.xac > chef-server-core-12.17.3-1.el7.x86_64.rpm')
+s.send('rm -f *xaa *xab *xac')
+
+# Guest additions
+s.send('wget http://download.virtualbox.org/virtualbox/5.2.2/VBoxGuestAdditions_5.2.2.iso')
+s.send('mount -t iso9660 -o loop ./VBoxGuestAdditions_*.iso /mnt')
+s.send('cd /mnt')
+s.send('./VBoxLinuxAdditions.run')
+s.send('cd -')
 
 
 # Workaround for docker networking issues + landrush.
