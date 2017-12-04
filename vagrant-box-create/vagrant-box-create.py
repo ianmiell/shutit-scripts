@@ -53,7 +53,8 @@ s.logout()
 s.logout()
 
 s.send('vagrant package')
-s.send('split -b 250m package.box')
+# 50m is the github warning limit
+s.send('split -b 49m package.box')
 s.send('cd /space/git/shutit-openshift-cluster')
 s.send('mkdir -p vagrant_box')
 s.send('git rm -f vagrant_box/* || rm -rf vagrant_box/*')
