@@ -1,6 +1,6 @@
 import shutit
 
-# This creates a box
+# This creates a box that speeds up builds for https://github.com/ianmiell/shutit-openshift-cluster
 
 s = shutit.create_session('bash',loglevel='debug',echo=True)
 s.send('rm -rf tmpvagrantboxcreate && mkdir tmpvagrantboxcreate && cd tmpvagrantboxcreate')
@@ -52,4 +52,4 @@ s.logout()
 
 s.send('vagrant package')
 
-s.pause_point('Now take the file and upload it to atlas.hashcorp.com')
+s.pause_point('Now take the file and upload it to vagrant cloud ianmiell/centos7ose')
