@@ -8,14 +8,14 @@ def startup(delete=False):
 		except IOError:
 			 pw = ''
 		if pw == '':
-			shutit.log('''WARNING! IF THIS DOES NOT WORK YOU MAY NEED TO SET UP A 'secret' FILE IN THIS FOLDER!''',level=logging.CRITICAL)
+			s1.log('''WARNING! IF THIS DOES NOT WORK YOU MAY NEED TO SET UP A 'secret' FILE IN THIS FOLDER!''')
 			import time
 			time.sleep(10)
 		if s1.send_and_get_output('uname') == 'Darwin':
-			s1.multisend('curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.23.0/minikube-darwin-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/',{'assword':pw})
+			s1.multisend('curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.2/minikube-darwin-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/',{'assword':pw})
 		else:
 			s1.multisend('curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.8.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/',{'password':pw})
-			s1.multisend('curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.23.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/',{'assword':pw})
+			s1.multisend('curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.2/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/',{'assword':pw})
 	if delete:
 		s1.send('minikube delete || true')
 	while True:
