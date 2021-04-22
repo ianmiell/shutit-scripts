@@ -1,6 +1,8 @@
 import shutit
 import os
 
+shutit.pane()
+
 # https://asciinema.org/a/140690
 
 # The gnuplot prompt to expect.

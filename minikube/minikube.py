@@ -1,7 +1,7 @@
 import shutit
 
 def startup(delete=False):
-	s1 = shutit.create_session('bash',loglevel='info',echo=True)
+	s1 = shutit.create_session('bash',loglevel='debug',echo=True)
 	if not s1.command_available('minikube') or s1.send_and_get_output("""minikube version | awk '{print $NF}'""") != 'v0.23.0':
 		try:
 			pw = file('secret').read().strip()
